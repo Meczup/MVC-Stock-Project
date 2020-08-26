@@ -1,0 +1,48 @@
+﻿@model StockMVC.Models.Entity.Table_Product
+@{
+    ViewBag.Title = "NewProduct";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+    <form class="form-group" method="post">
+
+        <div>
+            <label>Product Name</label>
+            <input type="text" class="form-control" name="productName" required="" maxlength="30" />
+        </div>
+        <div>
+            <label>Product Brand</label>
+            <input type="text" class="form-control" name="brand" required="" placeholder="type your brand name here" />
+        </div>
+        <div>
+            <label>Product Category</label>
+            @Html.DropDownListFor(m => m.Table_Category.categoryID, (List<SelectListItem>)ViewBag.value, new { @class = "form-control" })
+
+        </div>
+        <div>
+            <label>Product Price</label>
+            <input type="text" class="form-control" name="price" />
+        </div>
+        <div>
+            <label>Product Stock</label>
+            <input type="text" class="form-control" name="stock" />
+        </div>
+
+        <div style="margin-top:5px ">
+            <button class="btn btn-success">Add Product </button>
+            <a href="/PRODUCT" class="btn btn-info">GO BACK</a>
+        </div>
+
+
+        <div>
+            <label>Customer</label>
+            @Html.DropDownList("drpCustomer", new SelectList(ViewBag.customers, "mId", "musteriName"));
+        </div>
+
+        <div>
+            <label>Location</label>
+            @Html.DropDownList("drpLocations", new SelectList(ViewBag.locations, "bId", "bayiName"));
+        </div>
+
+    </form>
+

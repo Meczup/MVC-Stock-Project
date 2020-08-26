@@ -1,0 +1,21 @@
+﻿@model  StockMVC.Models.Entity.Table_Customer
+@{
+    ViewBag.Title = "CallCustomer";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateCustomer", "Customer", FormMethod.Post))
+{
+    <div class="form-group">
+        <label>Customer ID</label>
+        @Html.TextBoxFor(m => m.customerID, new { @class = "form-control" })
+    <br /> <label>Customer Name</label>
+            @Html.TextBoxFor(m => m.customerName, new { @class = "form-control" })
+    <br />  <label>Customer Surname</label>
+            @Html.TextBoxFor(m => m.customerLname, new { @class = "form-control" })
+    </div>
+    <button class="btn btn-success">Update Customer</button>
+    <a href="/customer" class="btn btn-info">GO BACK</a>
+}
+ 
+

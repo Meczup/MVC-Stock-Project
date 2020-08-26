@@ -1,0 +1,35 @@
+﻿@using StockMVC.Models.Entity
+@model PagedList.IPagedList<Table_Category>
+@using PagedList.Mvc
+@using PagedList
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>CATEGORY ID</th>
+        <th>CATEGORY NAME</th>
+        <th>DELETE</th>
+        <th>UPDATE</th>
+    </tr>
+
+    <tbody>
+        @foreach (var cat in Model)
+        {
+            <tr>
+                <th>@cat.categoryID</th>
+                <td>@cat.categoryName</td>
+                <td><a href="/CATEGORY/RemoveCategory/@cat.categoryID" class="btn btn-danger">Delete</a></td>
+                <td><a href="/CATEGORY/CallCategory/@cat.categoryID" class="btn btn-warning">Update</a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+
+<a href="/CATEGORY/NewCategory/" class="btn btn-primary">Add New Category</a>
+
+

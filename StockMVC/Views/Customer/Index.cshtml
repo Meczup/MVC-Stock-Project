@@ -1,0 +1,48 @@
+﻿@using StockMVC.Models.Entity
+@model  List<Table_Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Customer", FormMethod.Get))
+{
+    <p>
+        <b>Search Customer:</b>@Html.TextBox("p")
+        <input  type="submit" value="Search"/>
+    </p>
+}
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>CUSTOMER ID</th>
+        <th>CUSTOMER NAME</th>
+        <th>CUSTOMER LASTNAME</th>
+        <th>DELETE</th>
+        <th>UPDATE</th>
+        <th>ALERT</th>
+
+
+    </tr>
+    <tbody>
+        @foreach (var c in Model)
+        {
+
+            <tr>
+
+                <th>@c.customerID</th>
+                <td>@c.customerName</td>
+                <td>@c.customerLname</td>
+                <td><a href="/customer/RemoveCustomer/@c.customerID" class="btn btn-danger">Delete</a></td>
+                <td><a href="/customer/CallCustomer/@c.customerID" class="btn btn-warning">Update</a></td>
+                <td>@Html.ActionLink("Delete Button", "RemoveCustomer", new { id=c.customerID }, new { @class = "btn btn-warning", onclick = "return confirm('Are Sure For That')" })</td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+<a href="/CUSTOMER/NewCustomer/" class="btn btn-primary">Add New Customer</a>
+
+

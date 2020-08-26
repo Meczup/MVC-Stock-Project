@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MvcDbStockModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Table_Category">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Table_Customer">
+    <Key>
+      <PropertyRef Name="customerID" />
+    </Key>
+    <Property Name="customerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customerName" Type="varchar" MaxLength="50" />
+    <Property Name="customerLname" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Table_Product">
+    <Key>
+      <PropertyRef Name="productID" />
+    </Key>
+    <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productName" Type="varchar" MaxLength="50" />
+    <Property Name="brand" Type="varchar" MaxLength="50" />
+    <Property Name="productCategory" Type="smallint" />
+    <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="stock" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="Table_Sales">
+    <Key>
+      <PropertyRef Name="salesID" />
+    </Key>
+    <Property Name="salesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product" Type="int" />
+    <Property Name="customer" Type="int" />
+    <Property Name="quantity" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="Table_Sales_Deneme">
+    <Key>
+      <PropertyRef Name="salesID" />
+    </Key>
+    <Property Name="salesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product" Type="int" />
+    <Property Name="customer" Type="int" />
+    <Property Name="quantity" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_Table_Product_Table_Category">
+    <End Role="Table_Category" Type="Self.Table_Category" Multiplicity="0..1" />
+    <End Role="Table_Product" Type="Self.Table_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="Table_Product">
+        <PropertyRef Name="productCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Sales_Deneme_Table_Customer1">
+    <End Role="Table_Customer" Type="Self.Table_Customer" Multiplicity="0..1" />
+    <End Role="Table_Sales_Deneme" Type="Self.Table_Sales_Deneme" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="Table_Sales_Deneme">
+        <PropertyRef Name="customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Sales_Table_Customer">
+    <End Role="Table_Customer" Type="Self.Table_Customer" Multiplicity="0..1" />
+    <End Role="Table_Sales" Type="Self.Table_Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="Table_Sales">
+        <PropertyRef Name="customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Sales_Table_Product">
+    <End Role="Table_Product" Type="Self.Table_Product" Multiplicity="0..1" />
+    <End Role="Table_Sales" Type="Self.Table_Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="Table_Sales">
+        <PropertyRef Name="product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MvcDbStockModel1StoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Table_Category" EntityType="Self.Table_Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Table_Customer" EntityType="Self.Table_Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Table_Product" EntityType="Self.Table_Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Table_Sales" EntityType="Self.Table_Sales" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Table_Sales_Deneme" EntityType="Self.Table_Sales_Deneme" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Table_Product_Table_Category" Association="Self.FK_Table_Product_Table_Category">
+      <End Role="Table_Category" EntitySet="Table_Category" />
+      <End Role="Table_Product" EntitySet="Table_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Sales_Deneme_Table_Customer1" Association="Self.FK_Table_Sales_Deneme_Table_Customer1">
+      <End Role="Table_Customer" EntitySet="Table_Customer" />
+      <End Role="Table_Sales_Deneme" EntitySet="Table_Sales_Deneme" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Sales_Table_Customer" Association="Self.FK_Table_Sales_Table_Customer">
+      <End Role="Table_Customer" EntitySet="Table_Customer" />
+      <End Role="Table_Sales" EntitySet="Table_Sales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Sales_Table_Product" Association="Self.FK_Table_Sales_Table_Product">
+      <End Role="Table_Product" EntitySet="Table_Product" />
+      <End Role="Table_Sales" EntitySet="Table_Sales" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,33 @@
+﻿@model StockMVC.Models.Entity.Table_Product
+@{
+    ViewBag.Title = "CallProduct";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateProduct", "Product", FormMethod.Post))
+{
+    <div class="form-group">
+        <label>Product ID</label>
+        
+        @Html.TextBoxFor(m => m.productID, new { @class = "form-control" })
+
+        <label>Product Name</label>
+        @Html.TextBoxFor(m => m.productName, new { @class = "form-control" })
+
+        <label>Product Price</label> 
+        @Html.TextBoxFor(m => m.price, new { @class = "form-control" })
+
+        <label>Product Brand</label>
+        @Html.TextBoxFor(m => m.brand, new { @class = "form-control" })
+
+        <label>Product Category</label>
+        @Html.DropDownListFor(m => m.productCategory, (List<SelectListItem>)ViewBag.Categories, new { @class = "form-control" })
+
+
+        <label>Product Stock</label>
+        @Html.TextBoxFor(m => m.stock, new { @class = "form-control" })
+    </div>
+    <button class="btn btn-success">Update Product</button>
+    <a href="/product" class="btn btn-info">GO BACK</a>
+}
+

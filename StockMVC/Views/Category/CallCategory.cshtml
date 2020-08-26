@@ -1,0 +1,18 @@
+﻿@model StockMVC.Models.Entity.Table_Category
+@{
+    ViewBag.Title = "CallCategory";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("Update", "Category", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.categoryID)
+        @Html.TextBoxFor(m => m.categoryID, new { @class = "form-control" })
+        <br @Html.LabelFor(m => m.categoryName)
+            @Html.TextBoxFor(m => m.categoryName, new { @class = "form-control" })
+    </div>
+    <button class="btn btn-success">Update Category</button>
+    <a href="/category" class="btn btn-info">GO BACK</a>
+}
+    

@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MvcDbStockModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Table_Category">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="categoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Table_Product" Relationship="Self.FK_Table_Product_Table_Category" FromRole="Table_Category" ToRole="Table_Product" />
+  </EntityType>
+  <EntityType Name="Table_Customer">
+    <Key>
+      <PropertyRef Name="customerID" />
+    </Key>
+    <Property Name="customerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="customerLname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Table_Sales_Deneme" Relationship="Self.FK_Table_Sales_Deneme_Table_Customer1" FromRole="Table_Customer" ToRole="Table_Sales_Deneme" />
+    <NavigationProperty Name="Table_Sales" Relationship="Self.FK_Table_Sales_Table_Customer" FromRole="Table_Customer" ToRole="Table_Sales" />
+  </EntityType>
+  <EntityType Name="Table_Product">
+    <Key>
+      <PropertyRef Name="productID" />
+    </Key>
+    <Property Name="productID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="productCategory" Type="Int16" />
+    <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="stock" Type="Byte" />
+    <NavigationProperty Name="Table_Category" Relationship="Self.FK_Table_Product_Table_Category" FromRole="Table_Product" ToRole="Table_Category" />
+    <NavigationProperty Name="Table_Sales" Relationship="Self.FK_Table_Sales_Table_Product" FromRole="Table_Product" ToRole="Table_Sales" />
+  </EntityType>
+  <EntityType Name="Table_Sales">
+    <Key>
+      <PropertyRef Name="salesID" />
+    </Key>
+    <Property Name="salesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product" Type="Int32" />
+    <Property Name="customer" Type="Int32" />
+    <Property Name="quantity" Type="Byte" />
+    <NavigationProperty Name="Table_Customer" Relationship="Self.FK_Table_Sales_Table_Customer" FromRole="Table_Sales" ToRole="Table_Customer" />
+    <NavigationProperty Name="Table_Product" Relationship="Self.FK_Table_Sales_Table_Product" FromRole="Table_Sales" ToRole="Table_Product" />
+  </EntityType>
+  <EntityType Name="Table_Sales_Deneme">
+    <Key>
+      <PropertyRef Name="salesID" />
+    </Key>
+    <Property Name="salesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product" Type="Int32" />
+    <Property Name="customer" Type="Int32" />
+    <Property Name="quantity" Type="Byte" />
+    <NavigationProperty Name="Table_Customer" Relationship="Self.FK_Table_Sales_Deneme_Table_Customer1" FromRole="Table_Sales_Deneme" ToRole="Table_Customer" />
+  </EntityType>
+  <Association Name="FK_Table_Product_Table_Category">
+    <End Role="Table_Category" Type="Self.Table_Category" Multiplicity="0..1" />
+    <End Role="Table_Product" Type="Self.Table_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="Table_Product">
+        <PropertyRef Name="productCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Sales_Deneme_Table_Customer1">
+    <End Role="Table_Customer" Type="Self.Table_Customer" Multiplicity="0..1" />
+    <End Role="Table_Sales_Deneme" Type="Self.Table_Sales_Deneme" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="Table_Sales_Deneme">
+        <PropertyRef Name="customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Sales_Table_Customer">
+    <End Role="Table_Customer" Type="Self.Table_Customer" Multiplicity="0..1" />
+    <End Role="Table_Sales" Type="Self.Table_Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Customer">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="Table_Sales">
+        <PropertyRef Name="customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Sales_Table_Product">
+    <End Role="Table_Product" Type="Self.Table_Product" Multiplicity="0..1" />
+    <End Role="Table_Sales" Type="Self.Table_Sales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Table_Product">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="Table_Sales">
+        <PropertyRef Name="product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MvcDbStockEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Table_Category" EntityType="Self.Table_Category" />
+    <EntitySet Name="Table_Customer" EntityType="Self.Table_Customer" />
+    <EntitySet Name="Table_Product" EntityType="Self.Table_Product" />
+    <EntitySet Name="Table_Sales" EntityType="Self.Table_Sales" />
+    <EntitySet Name="Table_Sales_Deneme" EntityType="Self.Table_Sales_Deneme" />
+    <AssociationSet Name="FK_Table_Product_Table_Category" Association="Self.FK_Table_Product_Table_Category">
+      <End Role="Table_Category" EntitySet="Table_Category" />
+      <End Role="Table_Product" EntitySet="Table_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Sales_Deneme_Table_Customer1" Association="Self.FK_Table_Sales_Deneme_Table_Customer1">
+      <End Role="Table_Customer" EntitySet="Table_Customer" />
+      <End Role="Table_Sales_Deneme" EntitySet="Table_Sales_Deneme" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Sales_Table_Customer" Association="Self.FK_Table_Sales_Table_Customer">
+      <End Role="Table_Customer" EntitySet="Table_Customer" />
+      <End Role="Table_Sales" EntitySet="Table_Sales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Sales_Table_Product" Association="Self.FK_Table_Sales_Table_Product">
+      <End Role="Table_Product" EntitySet="Table_Product" />
+      <End Role="Table_Sales" EntitySet="Table_Sales" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

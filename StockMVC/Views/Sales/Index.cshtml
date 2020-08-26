@@ -1,0 +1,50 @@
+﻿@model  StockMVC.Models.Entity.Table_Sales
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal1">
+        Make a Sale
+    </button>
+    <div class="modal" id="Modal1">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Sales Screen</h2>
+                </div>
+                <form method="post" action="/Sales/NewSale">
+                    <div class="modal-body">
+                        <label>
+                            Product Name
+                        </label>
+                        @Html.TextBoxFor(m => m.product, new { @class = "form-control" })
+
+                        <label>
+                            Customer Name and Surname
+                        </label>
+                        @Html.TextBoxFor(m => m.customer, new { @class = "form-control" })
+
+                        <label>
+                            Quantity
+                        </label>
+                        @Html.TextBoxFor(m => m.quantity, new { @class = "form-control" })
+
+                        <label>
+                            Product Price
+                        </label>
+                        @Html.TextBoxFor(m => m.price, new { @class = "form-control" })
+                        <br />
+                        <button class="btn btn-info" type="submit">Save</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Turn Back</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
